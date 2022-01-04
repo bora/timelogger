@@ -25,6 +25,7 @@ namespace Timelogger.Api.Controllers
                                 filterString == "totalCost" ? i.TotalCost :
 								filterString == "id" ? i.Id :
 								filterString == "name" ? i.Name :
+								filterString == "timeSpent" ? i.TimeSpent :
 								filterString == "" ? i.Id : "";
 
 			//TODO: api/projects? get-projects
@@ -79,13 +80,14 @@ namespace Timelogger.Api.Controllers
 
 		// POST api/projects
 		[HttpPost]
-		public IActionResult Post(int id, string name,DateTime deadline, int totalCost)
+		public IActionResult Post(string name,DateTime deadline, int totalCost)
 		{
-			if(id > 0)
+			if(!string.IsNullOrWhiteSpace(name))
 			{
+				int lastId = _context.Projects.Any() ? _context.Projects.Max(t=>t.Id) : 0;
 				var projectObject = new Project
 				{
-					Id = id,
+					Id = lastId+1,
 					Name = name,
 					Deadline = deadline,
 					TotalCost = totalCost

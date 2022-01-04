@@ -19,12 +19,12 @@ const Table: FunctionComponent<ITableProps> = (props) => {
 	return (
 		<table className="table-fixed w-full hoverTable">
 			<thead className="bg-gray-400">
-				<tr>
-					<th className="border px-4 py-2 w-32">Project Id</th>
-					<th className="border px-4 py-2">Project Name</th>
+				<tr> 
+					<th onClick={ () => handleQuerySorting('id',isAscSorting)} className="border px-4 py-2 w-32">Project Id</th>
+					<th onClick={ () => handleQuerySorting('name',isAscSorting)} className="border px-4 py-2">Project Name</th>
 					<th onClick={ () => handleQuerySorting('deadline',isAscSorting)} className="border px-4 py-2">Project Deadline</th>
-					<th className="border px-4 py-2">Project Total Cost</th>
-					<th className="border px-4 py-2">Worked Hours</th>
+					<th onClick={ () => handleQuerySorting('totalCost',isAscSorting)} className="border px-4 py-2">Project Total Cost</th>
+					<th onClick={ () => handleQuerySorting('timeSpent',isAscSorting)} className="border px-4 py-2">Worked Hours</th>
 				</tr>
 			</thead>
 			<tbody>

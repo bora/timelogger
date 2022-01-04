@@ -13,16 +13,24 @@ const Modal: FunctionComponent<IModalProps> = (props) => {
 
   const HandleSaveFacade = (props:any) =>{
     let time = parseInt(timeEntered);
+    var today = new Date();
+    const currentDate = new Date(today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate());
     let projectId = projectInfo?.id !== undefined ? projectInfo?.id : 0;
+    let deadline = projectInfo?.deadline !== undefined ? new Date(projectInfo?.deadline) : '1900-01-01';
     let timeSpent = projectInfo?.timeSpent !== undefined ? projectInfo?.timeSpent : 0;
     let totalCost = projectInfo?.totalCost !== undefined ? projectInfo?.totalCost : 0;
-    let totalHours = (timeSpent + time)/60;
+    let newTimeSpent = timeSpent + time;
+    let totalHours = newTimeSpent/60;
     if( totalHours > totalCost ){
       alert('VALIDATION WARNING: You can not enter time more than total cost of the project!');
       return false;
     }
-    //TODO: deadline validation
+    if( currentDate > deadline ){
+      alert('VALIDATION WARNING: You can not enter time projects deadline passed!');
+      return false;
+    }
     insertTimesheet(projectId,1,time);
+    //projectInfo?.timeSpent = newTimeSpent!==undefined ? newTimeSpent : projectInfo?.timeSpent;
     props.rerenderParentCallback();
     setShowModal(false);
     return true;

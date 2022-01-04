@@ -13,7 +13,7 @@ const Projects: FunctionComponent<IProjectsView> = (props) => {
 	const [isDisable, setButtonDisabledOrNot] = useState(true);
 	const [textInput, setTextInput] = useState('');
 
-	const HandleRowSelect = (project:IProject) => {
+	const handleRowSelect = (project:IProject) => {
 		setSelectedItem(project);
 		setButtonDisabledOrNot(project===null);
 	}
@@ -31,11 +31,15 @@ const Projects: FunctionComponent<IProjectsView> = (props) => {
 		props.querySorting(querySorting);
 	}
 
+	const handleRerenderParentCallback = () =>{
+		props.rerenderParentCallback();
+	}
+
 	return (
 		<>
 			<div className="flex items-center my-6">
 				<div className="w-1/2">
-					<Model selectedRowItem={selectedItem} isDisable={isDisable} rerenderParentCallback={props.rerenderParentCallback}  />
+					<Model selectedRowItem={selectedItem} isDisable={isDisable} rerenderParentCallback={handleRerenderParentCallback}  />
 				</div>
 
 				<div className="w-1/2 flex justify-end">
@@ -54,7 +58,7 @@ const Projects: FunctionComponent<IProjectsView> = (props) => {
 			</div>
 
 			<Table dataListObject={projectList} 
-				   onRowSelect={HandleRowSelect} 
+				   onRowSelect={handleRowSelect} 
 				   selectedIndex={selectedItem?.id}
 				   querySorting={handleQuerySorting}
 			 />
