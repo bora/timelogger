@@ -10,12 +10,12 @@ import IQuerySorting from '../model/IQuerySorting';
 const Projects: FunctionComponent<IProjectsView> = (props) => {
 	let projectList = props.dataListObject;
 	const [selectedItem, setSelectedItem] = useState<IProject|null>( null );
-	const [isDisable, setButtonDisabledOrNot] = useState(true);
+	const [entryButtonDisabled, setEntryButtonDisabled] = useState(true);
 	const [textInput, setTextInput] = useState('');
 
 	const handleRowSelect = (project:IProject) => {
 		setSelectedItem(project);
-		setButtonDisabledOrNot(project===null);
+		setEntryButtonDisabled(project===null);
 	}
 	const handleSearch = (event:any) =>{
 		event.preventDefault();
@@ -33,13 +33,15 @@ const Projects: FunctionComponent<IProjectsView> = (props) => {
 
 	const handleRerenderParentCallback = () =>{
 		props.rerenderParentCallback();
+		setSelectedItem(null);
+		setEntryButtonDisabled(true);
 	}
 
 	return (
 		<>
 			<div className="flex items-center my-6">
 				<div className="w-1/2">
-					<Model selectedRowItem={selectedItem} isDisable={isDisable} rerenderParentCallback={handleRerenderParentCallback}  />
+					<Model selectedRowItem={selectedItem} isDisable={entryButtonDisabled} rerenderParentCallback={handleRerenderParentCallback}  />
 				</div>
 
 				<div className="w-1/2 flex justify-end">

@@ -18,7 +18,7 @@ const TimesheetSelectBox: FunctionComponent<ITimesheetSelectBoxProps> = (props) 
     return (
             <div className="col-span-6 sm:col-span-3">
                   <label htmlFor="country" className="block text-sm font-medium text-gray-700">
-                    Timesheet
+                    Please enter your timesheet.
                   </label>
                   <select
                     id="timesheet"

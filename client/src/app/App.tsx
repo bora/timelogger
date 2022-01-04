@@ -21,64 +21,47 @@ export default function App() {
 
     const handleSearch = (searchStringParam: string) => {
         setSearchString(searchStringParam);
-        //setUpdatedStatus(true);
     }
 
-    const handleQuerySorting = (querySorting:IQuerySorting) => {
+    const handleQuerySorting = (querySorting: IQuerySorting) => {
         setQuerySorting(querySorting);
-        console.log('handleQuerySorting',querySorting);
     }
 
-    useEffect( () => {
+    useEffect(() => {
         getMyUser()
-        .then(data => { 
-            setMyUser(data)
-            getAllProjectsWithTimeSpent(data,querySorting)
-            .then(dataProject => setProjectListObject(dataProject))
-            .catch(err => { console.log('getAllProjectsWithTimeSpent error:',err,myUser)});
-            setUpdatedStatus(false);
-        })
-        .catch(err => { console.log('getMyUser error:',err)});
-    },[updatedStatus,querySorting]);
+            .then(data => {
+                setMyUser(data)
+                getAllProjectsWithTimeSpent(data, querySorting)
+                    .then(dataProject => setProjectListObject(dataProject))
+                    .catch(err => { console.error('getAllProjectsWithTimeSpent error:', err, myUser) });
+                setUpdatedStatus(false);
+            })
+            .catch(err => { console.log('getMyUser error:', err) });
+    }, [updatedStatus, querySorting]);
 
-    useEffect( () => {
-        if(searchString!==undefined && searchString!==''){
+    useEffect(() => {
+        if (searchString !== undefined && searchString !== '') {
             getAllProjectsWithName(searchString)
-            .then(data => setProjectListObject(data))
-            .catch(err => { console.log('getAllProjectsWithName error:',err)});
+                .then(data => setProjectListObject(data))
+                .catch(err => { console.log('getAllProjectsWithName error:', err) });
             setSearchString('');
         }
-    },[searchString]);
-
-/*     useEffect( () => {
-        getMyUser().then(data => setMyUser(data)).catch(err => { console.log('getMyUser error:',err)});
-    },[]);
-
-    useEffect( () => {
-        getAllProjectsWithTimeSpent(myUser)
-        .then(data => setProjectsWithTime(data))
-        .catch(err => { console.log('getAllProjectsWithTimeSpent error:',err)});
-
-    },[updatedStatus]); */
-
-/*    ß useEffect( () => {
-        GetAllProjectsWithTimeSpent();
-    },[updatedStatus]); */
+    }, [searchString]);
 
     return (
         <>
             <header className="bg-gray-900 text-white flex items-center h-12 w-full">
                 <div className="container mx-auto">
-                   <a className="navbar-brand" href="/">Timelogger</a>
+                    <a className="navbar-brand" href="/">Timelogger</a>
                 </div>
             </header>
             <main>
-                <div className="container mx-auto">                      
-                    <ProjectsView dataListObject={projectListObject} 
-                                  rerenderParentCallback={handleRerenderParentCallback} 
-                                  searchAction={handleSearch}
-                                  querySorting={handleQuerySorting}
-                                  />
+                <div className="container mx-auto">
+                    <ProjectsView dataListObject={projectListObject}
+                        rerenderParentCallback={handleRerenderParentCallback}
+                        searchAction={handleSearch}
+                        querySorting={handleQuerySorting}
+                    />
                 </div>
             </main>
         </>
