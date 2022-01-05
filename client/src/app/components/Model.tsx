@@ -2,14 +2,13 @@ import React, { FunctionComponent, useState } from 'react';
 import insertTimesheet from '../api/timesheets';
 import IModalProps from '../model/IModalProps';
 import TimesheetSelectBox from './TimesheetSelectBox';
+import Constants from '../constants';
 
 const Modal: FunctionComponent<IModalProps> = (props) => {
-    const DEFAULT_INTERVAL_NUMBER = "30";
     let projectInfo = props.selectedRowItem;
-    let buttonClassName = (props.isDisable) ? "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded opacity-50 cursor-not-allowed" :
-        "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded";
+    let buttonClassName = (props.isDisable) ? Constants.ENTRY_BUTTON_DISABLED_CSS : Constants.ENTRY_BUTTON_ENABLED_CSS;
     const [showModal, setShowModal] = useState(false);
-    const [timeEntered, setTimesheet] = useState<string>(DEFAULT_INTERVAL_NUMBER);
+    const [timeEntered, setTimesheet] = useState<string>(Constants.DEFAULT_INTERVAL_NUMBER);
     const [warningMessage, setWarningMessage] = useState('');
 
     const HandleSaveFacade = (props: any) => {
@@ -18,17 +17,17 @@ const Modal: FunctionComponent<IModalProps> = (props) => {
         var today = new Date();
         const currentDate = new Date(today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate());
         let projectId = projInfo?.id !== undefined ? projInfo?.id : 0;
-        let deadline = projInfo?.deadline !== undefined ? new Date(projInfo?.deadline) : '1900-01-01';
+        let deadline = projInfo?.deadline !== undefined ? new Date(projInfo?.deadline) : Constants.DEFAULT_EMPTY_DATE;
         let timeSpent = projInfo?.timeSpent !== undefined ? projInfo?.timeSpent : 0;
         let totalCost = projInfo?.totalCost !== undefined ? projInfo?.totalCost : 0;
         let newTimeSpent = timeSpent + time;
         let totalHours = newTimeSpent / 60;
         if (totalHours > totalCost) {
-            setWarningMessage('You can not enter time more than total cost of the project!');
+            setWarningMessage(Constants.TOTAL_HOURS_WARNING);
             return false;
         }
         if (currentDate > deadline) {
-            setWarningMessage('You can not enter time projects deadline passed!');
+            setWarningMessage(Constants.DEADLINE_WARNING);
             return false;
         }
         insertTimesheet(projectId, 1, time);
@@ -45,7 +44,6 @@ const Modal: FunctionComponent<IModalProps> = (props) => {
     const HandleOnChangeTimeSheet = (timeEnteredParam: string) => {
         setTimesheet(timeEnteredParam);
     }
-    console.log('MODELE geldi selectBoxtan. MUJDE!', timeEntered);
 
     return (
         <>

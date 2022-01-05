@@ -36,14 +36,14 @@ export default function App() {
                     .catch(err => { console.error('getAllProjectsWithTimeSpent error:', err, myUser) });
                 setUpdatedStatus(false);
             })
-            .catch(err => { console.log('getMyUser error:', err) });
+            .catch(err => { console.error('getMyUser error:', err) });
     }, [updatedStatus, querySorting]);
 
     useEffect(() => {
         if (searchString !== undefined && searchString !== '') {
             getAllProjectsWithName(searchString)
                 .then(data => setProjectListObject(data))
-                .catch(err => { console.log('getAllProjectsWithName error:', err) });
+                .catch(err => { console.error('getAllProjectsWithName error:', err) });
             setSearchString('');
         }
     }, [searchString]);
@@ -53,6 +53,9 @@ export default function App() {
             <header className="bg-gray-900 text-white flex items-center h-12 w-full">
                 <div className="container mx-auto">
                     <a className="navbar-brand" href="/">Timelogger</a>
+                </div>
+                <div className="container mx-right">
+                    <a className="navbar-brand" href="/">User Info</a>
                 </div>
             </header>
             <main>
