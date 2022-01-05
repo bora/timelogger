@@ -8,7 +8,7 @@ const Modal: FunctionComponent<IModalProps> = (props) => {
     let projectInfo = props.selectedRowItem;
     let buttonClassName = (props.isDisable) ? Constants.ENTRY_BUTTON_DISABLED_CSS : Constants.ENTRY_BUTTON_ENABLED_CSS;
     const [showModal, setShowModal] = useState(false);
-    const [timeEntered, setTimesheet] = useState<string>(Constants.DEFAULT_INTERVAL_NUMBER);
+    const [timeEntered, setTimesheet] = useState<string>(Constants.DEFAULT_INTERVAL_NUMBER.toString());
     const [warningMessage, setWarningMessage] = useState('');
 
     const HandleSaveFacade = (props: any) => {

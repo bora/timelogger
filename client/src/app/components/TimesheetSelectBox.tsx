@@ -1,13 +1,13 @@
 import React, { FunctionComponent } from 'react';
 import ITimesheetSelectBoxProps from '../model/ITimesheetSelectBoxProps';
+import Constants from '../constants';
 
 const TimesheetSelectBox: FunctionComponent<ITimesheetSelectBoxProps> = (props) => {
-    const DEFAULT_INTERVAL_NUMBER = 30;
-    const timesheetArray = CreateArray(16, 0);
+    const timesheetArray = CreateArray(Constants.TIME_ARRAY_COUNT, 0);
 
     function CreateArray(arrayCount: number, intervalNumber: number) {
         const tsArray = [];
-        intervalNumber = intervalNumber > 0 ? intervalNumber : DEFAULT_INTERVAL_NUMBER;
+        intervalNumber = intervalNumber > 0 ? intervalNumber : Constants.DEFAULT_INTERVAL_NUMBER;
         for (let index = intervalNumber; index <= arrayCount * intervalNumber; index = index + intervalNumber) {
             tsArray.push(index);
         }

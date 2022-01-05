@@ -54,9 +54,6 @@ export default function App() {
                 <div className="container mx-auto">
                     <a className="navbar-brand" href="/">Timelogger</a>
                 </div>
-                <div className="container mx-right">
-                    <a className="navbar-brand" href="/">User Info</a>
-                </div>
             </header>
             <main>
                 <div className="container mx-auto">
