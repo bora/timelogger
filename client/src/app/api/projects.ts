@@ -8,8 +8,8 @@ import Constants from '../constants';
 export default async function getAllProjectsWithTimeSpent(
     myUser: User | undefined, querySorting: IQuerySorting | undefined): Promise<IProject[]> {
     try {
-        const endPoint = `${Constants.BASE_URL}/projects/get-projects-time`;
-        let userId = myUser !== undefined && myUser.id > 0 ? myUser.id : 1;
+        const endPoint = `${Constants.BASE_URL}/projects/user`;
+        let userId = myUser !== undefined && myUser.id > 0 ? myUser.id : 0;
         let filter = querySorting !== undefined && querySorting.filterString !== undefined && querySorting.filterString !== ''
             ? querySorting.filterString : 'id';
         let isAscSorting = querySorting !== undefined && querySorting.filterString !== undefined && querySorting.filterString !== ''
@@ -29,7 +29,7 @@ export default async function getAllProjectsWithTimeSpent(
 
 export async function getAllProjectsWithName(projectName: string): Promise<IProject[]> {
     try {
-        const endPoint = `${Constants.BASE_URL}/projects/get-projects-name`;
+        const endPoint = `${Constants.BASE_URL}/projects/name`;
         const params = new URLSearchParams([
             ['projectName', projectName],
             ['userId', "1"]

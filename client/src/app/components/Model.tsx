@@ -3,42 +3,67 @@ import insertTimesheet from '../api/timesheets';
 import IModalProps from '../model/IModalProps';
 import TimesheetSelectBox from './TimesheetSelectBox';
 import Constants from '../constants';
+import IMessage from '../model/IMessage';
 
 const Modal: FunctionComponent<IModalProps> = (props) => {
     let projectInfo = props.selectedRowItem;
+    let myUser = props.myUser;
     let buttonClassName = (props.isDisable) ? Constants.ENTRY_BUTTON_DISABLED_CSS : Constants.ENTRY_BUTTON_ENABLED_CSS;
     const [showModal, setShowModal] = useState(false);
     const [timeEntered, setTimesheet] = useState<string>(Constants.DEFAULT_INTERVAL_NUMBER.toString());
-    const [warningMessage, setWarningMessage] = useState('');
+    //const [warningMessage, setWarningMessage] = useState('');
 
     const HandleSaveFacade = (props: any) => {
         var projInfo = props.selectedRowItem;
         let time = parseInt(timeEntered);
+
+        if (IsValidated(projInfo, time)) {
+            let projectId = projInfo?.id !== undefined ? projInfo?.id : 0;
+            let userId = myUser !== undefined && myUser.id > 0 ? myUser.id : 1;
+            insertTimesheet(projectId, userId, time);
+            const messageObject: IMessage = {
+                text: Constants.SUCCESS_MESSAGE,
+                isSucceeded: true
+            }
+            HandleCloseFacade();
+            props.rerenderParentCallback(messageObject);
+            return true;
+        }
+        return false;
+    }
+
+    const IsValidated = (selectedRowItem: any, time: number): boolean => {
+        let projInfo = selectedRowItem;
         var today = new Date();
         const currentDate = new Date(today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate());
-        let projectId = projInfo?.id !== undefined ? projInfo?.id : 0;
+        const messageObj: IMessage = {
+            text: '',
+            isSucceeded: true
+        }
         let deadline = projInfo?.deadline !== undefined ? new Date(projInfo?.deadline) : Constants.DEFAULT_EMPTY_DATE;
         let timeSpent = projInfo?.timeSpent !== undefined ? projInfo?.timeSpent : 0;
         let totalCost = projInfo?.totalCost !== undefined ? projInfo?.totalCost : 0;
         let newTimeSpent = timeSpent + time;
         let totalHours = newTimeSpent / 60;
         if (totalHours > totalCost) {
-            setWarningMessage(Constants.TOTAL_HOURS_WARNING);
+            messageObj.isSucceeded = false;
+            messageObj.text = Constants.TOTAL_HOURS_WARNING;
+            HandleCloseFacade();
+            props.rerenderParentCallback(messageObj);
             return false;
         }
         if (currentDate > deadline) {
-            setWarningMessage(Constants.DEADLINE_WARNING);
+            messageObj.isSucceeded = false;
+            messageObj.text = Constants.DEADLINE_WARNING;
+            HandleCloseFacade();
+            props.rerenderParentCallback(messageObj);
             return false;
         }
-        insertTimesheet(projectId, 1, time);
-        props.rerenderParentCallback();
-        HandleCloseFacade();
         return true;
     }
 
     const HandleCloseFacade = () => {
         setShowModal(false);
-        setWarningMessage('');
     }
 
     const HandleOnChangeTimeSheet = (timeEnteredParam: string) => {
@@ -77,15 +102,7 @@ const Modal: FunctionComponent<IModalProps> = (props) => {
                                 </div>
                                 {/*body*/}
                                 <div className="relative p-6 flex-auto">
-
-                                    {warningMessage && (
-                                        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-5" role="alert">
-                                            <strong className="font-bold">VALIDATION WARNING! </strong><br />
-                                            <span className="block sm:inline">{warningMessage}</span>
-                                        </div>
-                                    )}
                                     <TimesheetSelectBox selectedItem={projectInfo} onChangeTimeSheet={HandleOnChangeTimeSheet} />
-
                                 </div>
                                 {/*footer*/}
                                 <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">

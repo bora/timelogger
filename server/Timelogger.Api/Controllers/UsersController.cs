@@ -4,31 +4,50 @@ using Timelogger.Entities;
 
 namespace Timelogger.Api.Controllers
 {
-	[Route("api/[controller]")]
-	public class UsersController : Controller
-	{
-		private readonly ApiContext _context;
+    [Route("api/[controller]")]
+    public class UsersController : Controller
+    {
+        private readonly ApiContext _context;
 
-		public UsersController(ApiContext context)
-		{
-			_context = context;
-		}
+        public UsersController(ApiContext context)
+        {
+            _context = context;
+        }
 
-		[HttpGet]
-		[Route("get-myuser")]
-		public IActionResult GetMyUser()
-		{
-			const int USER_ID = 1;
-			//_context.Users<ApiContext>().HasQueryFilter(p => !p.IsDeleted);
-			var filteredUsers = _context.Users.Where(x => x.Id == USER_ID).FirstOrDefault();
-			return Ok(filteredUsers);
-		}
+        [HttpGet]
+        [Route("myuser")]
+        public IActionResult GetMyUser()
+        {
+            const int USER_ID = 1;
+            var filteredUsers = _context.Users.Where(x => x.Id == USER_ID).FirstOrDefault();
+            return Ok(filteredUsers);
+        }
 
-		// GET api/users
-		[HttpGet]
-		public IActionResult Get()
-		{
-			return Ok(_context.Users);
-		}
-	}
+        // POST api/users
+        [HttpPost]
+        public IActionResult Post(string name, string surname, string email)
+        {
+            if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(surname))
+            {
+                int lastId = _context.Users.Any() ? _context.Users.Max(t => t.Id) : 0;
+                var userObject = new User
+                {
+                    Id = lastId + 1,
+                    Name = name,
+                    Surname = surname,
+                    Email = email
+                };
+                _context.Users.Add(userObject);
+                _context.SaveChanges();
+            }
+            return Ok(_context.Users);
+        }
+
+        // GET api/users
+        [HttpGet]
+        public IActionResult Get()
+        {
+            return Ok(_context.Users);
+        }
+    }
 }
