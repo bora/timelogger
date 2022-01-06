@@ -16,9 +16,9 @@ namespace Timelogger.Api.Controllers
 
         [HttpGet]
         [Route("myuser")]
-        public IActionResult GetMyUser()
+        public IActionResult GetMyUser(int userId)
         {
-            const int USER_ID = 1;
+            int USER_ID = userId > 0 ? userId : 1;
             var filteredUsers = _context.Users.Where(x => x.Id == USER_ID).FirstOrDefault();
             return Ok(filteredUsers);
         }

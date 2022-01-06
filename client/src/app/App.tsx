@@ -43,6 +43,7 @@ export default function App() {
 
     useEffect(() => {
         let user = updatedStatusWithUser ? myUser : undefined;
+        console.log('useEffect no 2 User', myUser?.name + ' ' + myUser?.surname);
         getAllProjectsWithTimeSpent(user, querySorting)
             .then(dataProject => setProjectListObject(dataProject))
             .catch(err => { console.error('getAllProjectsWithTimeSpent error:', err, myUser) });
@@ -60,9 +61,14 @@ export default function App() {
 
     return (
         <>
-            <header className="bg-gray-900 text-white flex items-center h-12 w-full">
-                <div className="container mx-auto">
+            <header className="bg-gray-900 text-white flex justify-between items-center h-12 w-full">
+                <div className="ml-10">
                     <a className="navbar-brand" href="/">Timelogger</a>
+                </div>
+                <div className="mr-8">
+                    <a className="navbar-brand" href="/">
+                        {myUser !== undefined ? myUser.name + ' ' + myUser.surname : ''}
+                    </a>
                 </div>
             </header>
             <main>

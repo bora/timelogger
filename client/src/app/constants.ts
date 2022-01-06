@@ -10,6 +10,7 @@ const constants = {
     MY_ENTRY_BUTTON_ENABLED_TEXT: "My Entries",
     MY_ENTRY_BUTTON_DISABLED_TEXT: "All Users Entries",
     DEFAULT_EMPTY_DATE: '1900-01-01',
+    DEFAULT_USER_ID: 1
 }
 
 export default constants;
