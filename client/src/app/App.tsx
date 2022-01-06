@@ -20,6 +20,7 @@ export default function App() {
 
     const handleUpdatedStatusWithUser = (updateParamForUser: boolean) => {
         setUpdatedStatusWithUser(updateParamForUser);
+        setMessageObject(undefined);
     }
 
     const handleRerenderParentCallback = (message: IMessage) => {
@@ -29,6 +30,7 @@ export default function App() {
 
     const handleSearch = (searchStringParam: string) => {
         setSearchString(searchStringParam);
+        setMessageObject(undefined);
     }
 
     const handleQuerySorting = (querySorting: IQuerySorting) => {

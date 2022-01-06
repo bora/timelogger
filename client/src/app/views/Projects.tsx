@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import Model from '../components/Model';
 import Table from '../components/Table';
 import constants from '../constants';
@@ -20,11 +20,14 @@ const Projects: FunctionComponent<IProjectsView> = (props) => {
     const handleRowSelect = (project: IProject) => {
         setSelectedItem(project);
         setEntryButtonDisabled(project === null);
+        props.rerenderParentCallback(undefined);
     }
     const handleSearch = (event: any) => {
         event.preventDefault();
-        if (textInput !== undefined && textInput != null && textInput !== '')
+        if (textInput !== undefined && textInput != null && textInput !== '') {
             props.searchAction(textInput);
+            setTextInput('');
+        }
     }
 
     const handleChange = (value: string) => {
@@ -43,9 +46,12 @@ const Projects: FunctionComponent<IProjectsView> = (props) => {
 
     const handleMyEntries = () => {
         setUpdatedStatusWithUser(!updatedStatusWithUser);
+    }
+
+    useEffect(() => {
         setMyEntryButtonText(updatedStatusWithUser ? constants.MY_ENTRY_BUTTON_DISABLED_TEXT : constants.MY_ENTRY_BUTTON_ENABLED_TEXT);
         props.updatedStatusWithUser(updatedStatusWithUser);
-    }
+    }, [updatedStatusWithUser]);
 
     return (
         <>
@@ -68,7 +74,7 @@ const Projects: FunctionComponent<IProjectsView> = (props) => {
                         <input className="border rounded-full py-2 px-4"
                             onChange={(e) => handleChange(e.target.value)}
                             id='searchProject'
-                            type="search" placeholder="Search" aria-label="Search" />
+                            type="search" placeholder="Search" aria-label="Search" value={textInput} />
                         <button onClick={(event) => handleSearch(event)}
                             className="bg-blue-500 hover:bg-blue-700 text-white rounded-full py-2 px-4 ml-2"
                             type="submit" >
