@@ -31,8 +31,7 @@ export async function getAllProjectsWithName(projectName: string): Promise<IProj
     try {
         const endPoint = `${Constants.BASE_URL}/projects/name`;
         const params = new URLSearchParams([
-            ['projectName', projectName],
-            ['userId', "1"]
+            ['projectName', projectName]
         ]);
         const response = await axios.get<IProject[]>(endPoint, { params });
         return Promise.resolve(response.data);

@@ -70,7 +70,7 @@ namespace Timelogger.Api.Controllers
 
         [HttpGet]
         [Route("name")]
-        public IActionResult GetProjectsWithName(string projectName, int userId)
+        public IActionResult GetProjectsWithName(string projectName)
         {
             var combinedProjects = from p in _context.Projects
                                    join ts in _context.Timesheets on p.Id equals ts.ProjectId into cxt
