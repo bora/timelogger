@@ -60,6 +60,11 @@ namespace Timelogger.Api.Controllers
                                    };
             }
 
+            if (combinedProjects == null)
+            {
+                return NotFound();
+            }
+
             IOrderedEnumerable<dynamic> combinedProjectsWithOrder;
             if (isAscSorting)
                 combinedProjectsWithOrder = combinedProjects.OrderBy(orderingFunction);
@@ -85,6 +90,10 @@ namespace Timelogger.Api.Controllers
                                        TotalCost = gtim.Key.TotalCost,
                                        TimeSpent = gtim.Sum(x => x.TimeSpent)
                                    };
+            if (combinedProjects == null)
+            {
+                return NotFound();
+            }
             return Ok(combinedProjects);
         }
 
@@ -113,6 +122,13 @@ namespace Timelogger.Api.Controllers
                 _context.SaveChanges();
             }
             return Ok(_context.Projects);
+        }
+
+        [HttpGet]
+        [Route("hello-world")]
+        public string HelloWorld()
+        {
+            return "Hello Back!";
         }
     }
 }

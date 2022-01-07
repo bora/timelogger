@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Timelogger.Api", "Timelogge
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Timelogger", "Timelogger\Timelogger.csproj", "{9B0E1AAC-9A93-43AA-BDB6-39A40D60E29A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Timelogger.Api.UnitTests", "Timelogger.Api.UnitTests\Timelogger.Api.UnitTests.csproj", "{B9F03D26-BA28-468B-B1C3-51D6906651F3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{9B0E1AAC-9A93-43AA-BDB6-39A40D60E29A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B0E1AAC-9A93-43AA-BDB6-39A40D60E29A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B0E1AAC-9A93-43AA-BDB6-39A40D60E29A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9F03D26-BA28-468B-B1C3-51D6906651F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9F03D26-BA28-468B-B1C3-51D6906651F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9F03D26-BA28-468B-B1C3-51D6906651F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9F03D26-BA28-468B-B1C3-51D6906651F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

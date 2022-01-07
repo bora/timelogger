@@ -20,6 +20,10 @@ namespace Timelogger.Api.Controllers
         {
             int USER_ID = userId > 0 ? userId : 1;
             var filteredUsers = _context.Users.Where(x => x.Id == USER_ID).FirstOrDefault();
+            if (filteredUsers == null)
+            {
+                return NotFound();
+            }
             return Ok(filteredUsers);
         }
 
